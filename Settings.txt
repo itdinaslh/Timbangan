@@ -1,0 +1,12 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "AppDB": "Server=localhost;Port=3306;Database=timbangan;Uid=admin;Pwd=Admin123$;"
+  }
+}
