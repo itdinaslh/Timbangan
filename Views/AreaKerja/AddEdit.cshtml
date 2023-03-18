@@ -1,0 +1,36 @@
+﻿@model AreaKerjaVM
+
+<form asp-action="Store" asp-controller="AreaKerja" method="post">
+    <div class="modal-header">
+        @if (Model.AreaKerja!.AreaKerjaID != 0)
+        {
+            <h5 class="model-title">Edit Master Area Kerja</h5>
+        }
+        else
+        {
+            <h5 class="modal-title">Tambah Master Area Kerja</h5>
+        }
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group mb-3">
+            <label>Nama Area Kerja</label>
+            <input type="text" asp-for="AreaKerja!.NamaArea" class="form-control" autofocus autocomplete="off" />
+            <span asp-validation-for="AreaKerja!.NamaArea" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label>Penugasan</label>
+            <select asp-for="AreaKerja!.PenugasanID" class="form-control sPenugasan">
+                @if (Model.NamaPenugasan is not null)
+                {
+                    <option value="AreaKerja.PenugasanID">@Model.NamaPenugasan</option>
+                }
+            </select>
+            <span asp-validation-for="NamaPenugasan" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>

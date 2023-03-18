@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-layout-mode="dark" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title | Timbangan Bantargebang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="System Pengujian Lab Lingkungan Hidup Prov. DKI Jakarta" name="description" />
+    <meta content="Rangga Dwi" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/logo-dinas.ico">
+
+    @await RenderSectionAsync("plugincss", required: false)
+
+    <!-- Layout config Js -->
+    <script src="~/dist/assets/js/layout.js"></script>
+    <!-- Bootstrap Css -->
+    <link href="~/dist/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    @await RenderSectionAsync("styles", required: false)
+
+    <!-- Icons Css -->
+    <link href="~/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="~/dist/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- custom Css-->
+    <link href="~/dist/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <partial name="_Header" />
+        <!-- ========== App Menu ========== -->
+        <partial name="_Sidebar" />
+        
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <partial name="_Foot" />
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+    <!--preloader-->
+    <partial name="_PreLoader" />
+
+    <!--customizer-->
+    @*<partial name="_Customizer" />*@
+
+    <!-- JAVASCRIPT -->
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/dist/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/dist/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/dist/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/dist/assets/libs/feather-icons/feather.min.js"></script>
+    <script src="~/dist/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="~/dist/assets/js/plugins.js"></script>
+
+    @await RenderSectionAsync("pluginjs", required: false)    
+
+    <!-- App js -->
+    <script src="~/dist/assets/js/app.js"></script>
+    @await RenderSectionAsync("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,64 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Timbangan.Data;
+using Timbangan.Domain.Repositories;
+using Timbangan.Domain.Services;
+using Timbangan.Hubs;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+var services = builder.Services;
+
+// Add CoRS
+services.AddCors();
+services.AddSignalR();
+
+string conn = builder.Configuration.GetConnectionString("AppDB");
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDbContext>();
+
+services.AddDbContext<AppDbContext>(options => {
+    options.UseMySql(conn, ServerVersion.AutoDetect(conn));
+});
+
+{
+    services.AddScoped<ITipeKendaraan, TipeKendaraanService>();
+    services.AddScoped<IStatus, StatusService>();
+    services.AddScoped<IPenugasan, PenugasanService>();
+    services.AddScoped<IAreaKerja, AreaKerjaService>();
+}
+
+// Add SignalR
+services.AddSignalR();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.MapHub<ScaleHub>("/hub/scale");
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints => {
+    endpoints.MapControllers();
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+});
+
+app.Run();

@@ -1,0 +1,27 @@
+﻿@model Status
+
+<form asp-action="Store" asp-controller="Status" method="post">
+    <div class="modal-header">
+        @if (Model.StatusID != 0)
+        {
+            <h5 class="model-title">Edit Master Status</h5>
+        }
+        else
+        {
+            <h5 class="modal-title">Tambah Master Status</h5>
+        }
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" asp-for="StatusID">
+        <div class="form-group mb-3">
+            <label>Nama Tipe</label>
+            <input type="text" asp-for="StatusName" class="form-control" autofocus autocomplete="off" />
+            <span asp-validation-for="StatusName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>
