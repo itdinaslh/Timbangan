@@ -1,0 +1,27 @@
+﻿@model RoleVM
+
+<form asp-action="Store" asp-controller="Role" method="post">
+    <div class="modal-header">
+        @if (Model.IsEdit)
+        {
+            <h5 class="modal-title">Edit Role</h5>
+        } else
+        {
+            <h5 class="modal-title">Tambah Role</h5>
+        }
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" asp-for="RoleID" />        
+        <div class="form-group mb-3">
+            <label>Nama Role</label>
+            <input type="text" asp-for="RoleName" class="form-control" required autofocus autocomplete="off" />
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>

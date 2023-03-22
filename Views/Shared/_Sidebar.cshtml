@@ -4,19 +4,19 @@
         <!-- Dark Logo-->
         <a asp-action="Dashboard" asp-controller="Home" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="~/dist/assets/images/logo/logo2.png" alt="" height="22">
+                <img src="~/assets/images/logo/logo2.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="~/dist/assets/images/logo/llhd-dark.png" alt="" height="22">
+                <img src="~/assets/images/logo/logo-dark.png" alt="" height="22">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="~/dist/assets/images/logo/logo2.png" alt="" height="22">
+                <img src="~/assets/images/logo/logo2.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="~/dist/assets/images/logo/llhd-light.png" alt="" height="22">
+                <img src="~/assets/images/logo/logo-light.png" alt="" height="22">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -38,23 +38,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class='nav-link menu-link @(ViewBag.Parent == "Rencana" ? "collapsed active" : "")' href="#rencana" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarRencana">
-                        <i class="ri-calendar-todo-line"></i> <span data-key="t-rencana">Rencana Kegiatan</span>
+                    <a asp-action="Index" asp-controller="Home" class='nav-link menu-link @(ViewBag.Title == "Edit Transaksi" ? "active" : "")'>
+                        <i class="ri-pencil-line"></i> <span data-key="t-edit-transaksi">Edit Transaksi</span>
                     </a>
-                    <div class='collapse menu-dropdown @(ViewBag.Parent == "Rencana" ? "show" : "")' id="rencana">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a asp-action="List" asp-controller="Client" class='nav-link @(ViewBag.Title == "Data Pelanggan" ? "active" : "")' data-key="t-list-client"> Pelanggan </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-action="List" asp-controller="Pengajuan" class='nav-link @(ViewBag.Title == "Pengajuan Uji Lab" ? "active" : "")' data-key="t-list-pengajuan"> Pengajuan </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-action="Payment" asp-controller="Pengajuan" class='nav-link @(ViewBag.Title == "Data Pembayaran" ? "active" : "")' data-key="t-list-pembayaran"> Pembayaran </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>                
+                </li>
 
                 <li class="nav-item">
                     <a class='nav-link menu-link @(ViewBag.Parent == "Laporan" ? "collapsed active" : "")' href="#laporan" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLaporan">
@@ -97,16 +84,16 @@
                     <div class='collapse menu-dropdown @(ViewBag.Parent == "Registrasi" ? "show" : "")' id="registrasi">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-action="Provinsi" asp-controller="Wilayah" class='nav-link @(ViewBag.Title == "Provinsi" ? "active" : "")' data-key="t-provinsi"> Ekspenditur </a>
+                                <a asp-action="Index" asp-controller="Client" class='nav-link @(ViewBag.Title == "Ekspenditur" ? "active" : "")' data-key="t-ekspenditur"> Ekspenditur </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-action="Kabupaten" asp-controller="Wilayah" class='nav-link @(ViewBag.Title == "Kabupaten" ? "active" : "")' data-key="t-kabupaten"> Truk </a>
+                                <a asp-action="Index" asp-controller="Kendaraan" class='nav-link @(ViewBag.Title == "Truk" ? "active" : "")' data-key="t-truk"> Truk </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-action="Kecamatan" asp-controller="Wilayah" class='nav-link @(ViewBag.Title == "Kecamatan" ? "active" : "")' data-key="t-kecamatan"> User </a>
+                                <a asp-action="Index" asp-controller="User" class='nav-link @(ViewBag.Title == "Users" ? "active" : "")' data-key="t-kecamatan"> User </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-action="Kelurahan" asp-controller="Wilayah" class='nav-link @(ViewBag.Title == "Kelurahan" ? "active" : "")' data-key="t-kelurahan"> Group </a>
+                                <a asp-action="Index" asp-controller="Role" class='nav-link @(ViewBag.Title == "Roles" ? "active" : "")' data-key="t-roles"> Roles </a>
                             </li>
                         </ul>
                     </div>

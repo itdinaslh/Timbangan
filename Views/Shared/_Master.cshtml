@@ -12,19 +12,19 @@
     @await RenderSectionAsync("plugincss", required: false)
 
     <!-- Layout config Js -->
-    <script src="~/dist/assets/js/layout.js"></script>
+    <script src="~/assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
-    <link href="~/dist/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
     @await RenderSectionAsync("styles", required: false)
 
     <!-- Icons Css -->
-    <link href="~/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="~/dist/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
     <!-- custom Css-->
-    <link href="~/dist/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -33,7 +33,14 @@
     <div id="layout-wrapper">
         <partial name="_Header" />
         <!-- ========== App Menu ========== -->
-        <partial name="_Sidebar" />
+        @if (User.IsInRole("SysAdmin"))
+        {
+            <partial name="_Sidebar" />
+        } else if (User.IsInRole("OpMasuk"))
+        {
+            <partial name="~/Views/Sidebar/OpMasuk.cshtml" />
+        }
+
         
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
@@ -70,17 +77,17 @@
 
     <!-- JAVASCRIPT -->
     <script src="~/js/jquery-3.6.0.min.js"></script>
-    <script src="~/dist/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="~/dist/assets/libs/node-waves/waves.min.js"></script>
-    <script src="~/dist/assets/libs/feather-icons/feather.min.js"></script>
-    <script src="~/dist/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
-    <script src="~/dist/assets/js/plugins.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/libs/feather-icons/feather.min.js"></script>
+    <script src="~/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="~/assets/js/plugins.js"></script>
 
     @await RenderSectionAsync("pluginjs", required: false)    
 
     <!-- App js -->
-    <script src="~/dist/assets/js/app.js"></script>
+    <script src="~/assets/js/app.js"></script>
     @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>

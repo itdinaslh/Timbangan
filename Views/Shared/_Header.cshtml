@@ -1,4 +1,6 @@
-﻿@using System.Security.Claims
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <header id="page-topbar">
     <div class="layout-width">
@@ -8,19 +10,19 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a asp-action="Dashboard" asp-controller="Home" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="~/dist/assets/images/logo/logo2.png" alt="" height="22">
+                            <img src="~/assets/images/logo/logo2.png" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="~/dist/assets/images/logo/llhd-dark.png" alt="" height="17">
+                            <img src="~/assets/images/logo/logo-dark.png" alt="" height="17">
                         </span>
                     </a>
 
                     <a asp-action="Dashboard" asp-controller="Home class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="~/dist/assets/images/logo/logo2.png" alt="" height="22">
+                            <img src="~/assets/images/logo/logo2.png" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="~/dist/assets/images/logo/llhd-light.png" alt="" height="17">
+                            <img src="~/assets/images/logo/logo-light.png" alt="" height="17">
                         </span>
                     </a>
                 </div>
@@ -138,7 +140,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="~/dist/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="~/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -190,7 +192,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="~/dist/assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="~/assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -225,7 +227,7 @@
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="~/dist/assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="~/assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">James Lemire</h6>
@@ -248,7 +250,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="~/dist/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="~/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -274,7 +276,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="~/dist/assets/images/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="~/assets/images/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Kenneth Brown</h6>
@@ -299,7 +301,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="~/dist/assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="~/assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -342,14 +344,14 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="~/dist/assets/images/logo/logo1.png" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="~/assets/images/logo/logo1.png" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
                                     @{
 #nullable disable
                                         if (User.Identity.IsAuthenticated)
                                         {
-                                            @(((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault())
+                                            @User.FindFirst("UserFullName")!.Value
                                         }
                                     }
                                 </span>
@@ -369,13 +371,13 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="#"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
-                        <a class="dropdown-item" href="#"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Taskboard</span></a>
-                        <a class="dropdown-item" href="#"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><span class="badge bg-soft-success text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a>
-                        <a class="dropdown-item" href="#"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href="/logout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="dropdown-item" title="Logout">
+                                <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout"></span>
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

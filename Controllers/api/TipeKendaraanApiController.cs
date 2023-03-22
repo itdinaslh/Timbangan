@@ -49,4 +49,18 @@ public class TipeKendaraanApiController : ControllerBase
 
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/tipe-kendaraan/search")]
+    public async Task<IActionResult> Search(string? term)
+    {
+        var data = await repo.TipeKendaraans
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.NamaTipe.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.TipeKendaraanID,
+                data = s.NamaTipe
+            }).ToListAsync();
+
+        return Ok(data);
+    }
 }

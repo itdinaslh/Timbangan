@@ -24,4 +24,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Client> Clients { get; set; }
 
     public DbSet<Kendaraan> Kendaraans { get; set; }
+
+    public DbSet<Transaction> Transactions { get; set; }
 }

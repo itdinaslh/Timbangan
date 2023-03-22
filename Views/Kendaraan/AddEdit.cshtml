@@ -1,0 +1,69 @@
+﻿@model KendaraanVM
+
+<form asp-action="Store" asp-controller="Kendaraan" method="post">
+    <div class="modal-header">
+        <h5 class="model-title">Tambah Truk</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <input asp-for="Kendaraan.KendaraanID" type="hidden" />
+        <div class="row mb-3">
+            <div class="col-6">
+                <label>No Polisi</label>
+                <input asp-for="Kendaraan.NoPolisi" class="form-control" placeholder="Isi No. Polisi disini" required autofocus autocomplete="off" />
+            </div>
+            <div class="col-6">
+                <label>No Pintu</label>
+                <input asp-for="Kendaraan.NoPintu" class="form-control" placeholder="Isi No.Pintu/Lambung disini" required autocomplete="off" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label>Ekspenditur</label>
+                <select asp-for="Kendaraan.ClientID" class="form-control sClient">
+
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-6">
+                <label>Penugasan</label>
+                <select asp-for="PenugasanID" class="form-control sPenugasan">
+
+                </select>
+            </div>
+            <div class="col-6">
+                <label>Area Kerja</label>
+                <select asp-for="Kendaraan.AreaKerjaID" class="form-control sArea">
+
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-6">
+                <label>Tipe Truk</label>
+                <select asp-for="Kendaraan.TipeKendaraanID" class="form-control sTipe">
+
+                </select>
+            </div>
+            <div class="col-6">
+                <label>Jumlah Roda</label>
+                <select asp-for="Kendaraan.RodaID" class="form-control sRoda"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label>KIR</label>
+                <input asp-for="Kendaraan.BeratKIR" class="form-control" placeholder="Masukkan KIR disini" />
+            </div>
+            <div class="col-6">
+                <label>No. RFID</label>
+                <input asp-for="Kendaraan.RFID" class="form-control" placeholder="Input No. RFID disini" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>

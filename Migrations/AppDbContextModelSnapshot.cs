@@ -233,7 +233,6 @@ namespace Timbangan.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("PenugasanID")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
 
@@ -260,6 +259,9 @@ namespace Timbangan.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("PkmID")
+                        .HasColumnType("char(36)");
 
                     b.Property<int?>("StatusID")
                         .HasColumnType("int");
@@ -314,6 +316,10 @@ namespace Timbangan.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("NoPintu")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -341,6 +347,10 @@ namespace Timbangan.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("KendaraanID");
 
@@ -432,6 +442,28 @@ namespace Timbangan.Migrations
                     b.ToTable("tipekendaraan");
                 });
 
+            modelBuilder.Entity("Timbangan.Domain.Entities.Transaction", b =>
+                {
+                    b.Property<Guid>("TransactionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("BeratMasuk")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NoPintu")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("NoPolisi")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("TransactionID");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -487,9 +519,7 @@ namespace Timbangan.Migrations
                 {
                     b.HasOne("Timbangan.Domain.Entities.Penugasan", "Penugasan")
                         .WithMany("AreaKerjas")
-                        .HasForeignKey("PenugasanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PenugasanID");
 
                     b.Navigation("Penugasan");
                 });

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Timbangan.Data;
 using Timbangan.Domain.Repositories;
 using Timbangan.Domain.Services;
+using Timbangan.Helpers;
 using Timbangan.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,11 +16,18 @@ var services = builder.Services;
 
 // Add CoRS
 services.AddCors();
-services.AddSignalR();
 
 string conn = builder.Configuration.GetConnectionString("AppDB");
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;    
+})
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 services.AddDbContext<AppDbContext>(options => {
@@ -27,14 +35,20 @@ services.AddDbContext<AppDbContext>(options => {
 });
 
 {
+    services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
     services.AddScoped<ITipeKendaraan, TipeKendaraanService>();
     services.AddScoped<IStatus, StatusService>();
     services.AddScoped<IPenugasan, PenugasanService>();
     services.AddScoped<IAreaKerja, AreaKerjaService>();
+    services.AddScoped<IClient, ClientService>();
+    services.AddScoped<IKendaraan, KendaraanService>();
+    services.AddScoped<IRoda, RodaService>();
+    services.AddScoped<ITransaction, TransactionService>();
 }
 
 // Add SignalR
 services.AddSignalR();
+services.AddSession();
 
 var app = builder.Build();
 

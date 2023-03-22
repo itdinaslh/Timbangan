@@ -49,4 +49,18 @@ public class StatusApiController : ControllerBase
 
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/status/search")]
+    public async Task<IActionResult> Search(string? term)
+    {
+        var data = await repo.Statuses
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.StatusName.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.StatusID,
+                data = s.StatusName
+            }).ToListAsync();
+
+        return Ok(data);
+    }
 }

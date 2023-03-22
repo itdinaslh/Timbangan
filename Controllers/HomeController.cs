@@ -17,6 +17,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        if (User.IsInRole("OpMasuk"))
+        {
+            return View("~/Views/Transaction/Masuk/Index.cshtml");
+        }
         return View();
     }
 

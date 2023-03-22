@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Timbangan Masuk";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Berat Timbangan</h2>
+                        <span id="berat" class="text-white" style="font-size:42px;font-weight:bold;">0</span>
+                    </div>
+                    <div class="col-6">
+                        <select id="pos" onchange="ChangePos()">
+                            <option value="1" selected>Timbangan 1</option>
+                            <option value="2">Timbangan 2</option>
+                            <option value="3">Timbangan 3</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>            
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/pages/dashboard/Masuk.js"></script>
+    <script src="~/pages//dashboard/TransaksiMasuk.js"></script>
+}

@@ -1,0 +1,37 @@
+﻿@model UserUpdateVM
+
+<form asp-action="Update" asp-controller="User" method="post">
+    <div class="modal-header">
+        @if (Model.UserID != null)
+        {
+            <h5 class="model-title">Edit User</h5>
+        }
+        else
+        {
+            <h5 class="modal-title">Tambah User</h5>
+        }
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" asp-for="UserID" />
+        <div class="form-group mb-3">
+            <label>Username</label>
+            <input asp-for="UserName" class="form-control" autofocus autocomplete="off" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label>Nama Lengkap</label>
+            <input asp-for="FullName" class="form-control" autocomplete="off" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" autocomplete="off" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>

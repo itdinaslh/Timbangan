@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
+﻿@using System.Globalization
+
+@{
+    ViewBag.Title = "Dashboard";
 }
 
 <div class="row">
@@ -11,6 +13,11 @@
                         <div class="flex-grow-1">
                             <h4 class="fs-16 mb-1">Monitoring Bantargebang</h4>                            
                         </div>
+                        <div class="mt-3 mt-lg-0">
+                            <div class="col-auto">
+                                @DateTime.Now.ToString("dddd, dd MMMM yyyy", new CultureInfo("id-ID"))
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -19,42 +26,90 @@
 </div>
 <div class="row">
     <div class="col-xl-4 col-md-12">
-        <div class="card bg-success" style="min-height:200px;">
+        <div class="card bg-success" style="min-height:250px;">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <div>
+                    <div style="width:100%;">
                         <p class="fw-bold text-white mb-0">Jumlah Truk Dumping</p>
-                        <h2 class="mt-4 ff-secondary fw-semibold text-white">85 Truk</h2>
-                        
+                        <h1 id="test" class="mt-4 text-white mb-3 text-center" style="font-size:40px;">85</h1>
+                        <h2 class="mt-3 text-white mb-3 text-center">Truk</h2>
                     </div>
                 </div>                
             </div>
         </div>
     </div>
     <div class="col-xl-4 col-md-12">
-        <div class="card bg-primary" style="min-height:200px;">
+        <div class="card bg-primary" style="min-height:250px;">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <div>
+                    <div style="width:100%">
                         <p class="fw-bold text-white mb-0">Rata-rata per dwell</p>
-                        <h2 class="mt-4 ff-secondary fw-semibold text-white">300 Truk</h2>
-                        <p class="mb-0 text-white-50"><span class="badge badge-soft-light mb-0"><i class="ri-arrow-down-line align-middle"></i> 0.24 % </span> vs. previous month</p>
+                        <h1 class="mt-4 text-white mb-3 text-center" style="font-size:40px;">300 Truk</h1>
+                        <h2 class="mt-3 text-white mb-3 text-center">04 Jam 37 Menit</h2>
+                        <select class="form-control">
+                            <option value="1">4 Jam</option>
+                            <option value="2" selected>8 Jam</option>
+                            <option value="3">12 Jam</option>
+                        </select>
                     </div>
                 </div>                
             </div>
         </div>
     </div>
     <div class="col-xl-4 col-md-12">
-        <div class="card bg-danger" style="min-height:200px;">
+        <div class="card bg-danger" style="min-height:250px;">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <div>
+                    <div style="width:100%">
                         <p class="fw-bold text-white mb-0">Statistik Kumulatif</p>
-                        <h2 class="mt-4 ff-secondary fw-semibold text-white">200 Truk</h2>
-                        <p class="mb-0 text-white-50"><span class="badge badge-soft-light mb-0"><i class="ri-arrow-down-line align-middle"></i> 0.24 % </span> vs. previous month</p>
+                        <h1 class="mt-4 text-white mb-3 text-center" style="font-size:40px;">200 Truk</h1>
+                        <h2 class="mt-3 text-white mb-3 text-center">1450 Ton</h2>
+                        <select class="form-control">
+                            <option value="1">Per Kemarin</option>
+                            <option value="2" selected>Per Hari Ini</option>
+                            <option value="3">Per Minggu</option>
+                            <option value="4">Per Bulan</option>
+                        </select>
                     </div>
                 </div>                
             </div>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h5 class="card-title mb-0 flex-grow-1">Daftar Transaksi</h5>
+                <div>
+                    <select style="min-width:150px;">
+                        <option value="">Sort By</option>
+                        <option value="1">Masuk</option>
+                        <option value="2">Keluar</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ekspenditur</th>
+                            <th>Masuk</th>
+                            <th>Keluar</th>
+                            <th>No. Pintu</th>
+                            <th>No. Polisi</th>
+                            <th>Berat Masuk</th>
+                            <th>Berat Keluar</th>
+                            <th>Nett</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/pages/dashboard/Index.js"></script>
+}

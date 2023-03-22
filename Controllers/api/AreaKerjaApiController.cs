@@ -53,9 +53,10 @@ public class AreaKerjaApiController : ControllerBase
     }
 
     [HttpGet("/api/master/area-kerja/search")]
-    public async Task<IActionResult> Search(string? term)
+    public async Task<IActionResult> Search(string? term, string tugas)
     {
-        var data = await repo.AreaKerjas            
+        var data = await repo.AreaKerjas
+            .Where(p => p.PenugasanID == tugas)
             .Where(k => !String.IsNullOrEmpty(term) ?
                 k.NamaArea.ToLower().Contains(term.ToLower()) : true
             ).Select(s => new {

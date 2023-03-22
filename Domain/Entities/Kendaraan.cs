@@ -12,15 +12,20 @@ public class Kendaraan
 
     public Guid? UniqueID { get; set; } = Guid.NewGuid();
 
+#nullable disable
     [MaxLength(20)]
     [Required(ErrorMessage = "No Polisi Kendaraan Wajib Diisi")]
-    public string NoPolisi { get; set; } = default!;
+    public string NoPolisi { get; set; }
 
     [MaxLength(30)]
     [Required(ErrorMessage = "No Pintu Wajib Diisi")]
-    public string NoPintu { get; set; } = default!;
+    public string NoPintu { get; set; }
+
+#nullable enable
 
     public string? RFID { get; set; }
+
+#nullable disable
 
     [Required(ErrorMessage = "Nama Ekspenditur Wajib Diisi")]
     public int ClientID { get; set; }
@@ -34,6 +39,8 @@ public class Kendaraan
     [Required(ErrorMessage = "Jumlah Roda Wajib Diisi")]
     public int RodaID { get; set; }
 
+#nullable enable
+
     public int? StatusID { get; set; }
 
     public int? AvgMasuk { get; set; } = 0;
@@ -46,15 +53,23 @@ public class Kendaraan
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
-    public Client Client { get; set; } = default!;
+    [MaxLength(100)]
+    public string? CreatedBy { get; set; }
 
-    public AreaKerja AreaKerja { get; set; } = default!;
+    [MaxLength(100)]
+    public string? UpdatedBy { get; set; }
 
-    public Roda Roda { get; set; } = default!;
+#nullable disable
 
-    public Status Status { get; set; } = default!;
+    public Client Client { get; set; }
 
-    public TipeKendaraan TipeKendaraan { get; set; } = default!;
+    public AreaKerja AreaKerja { get; set; }
+
+    public Roda Roda { get; set; }
+
+    public Status Status { get; set; }
+
+    public TipeKendaraan TipeKendaraan { get; set; }
 
 
 }

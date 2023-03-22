@@ -7,7 +7,7 @@ $(document).on('select2:open', () => {
 });
 
 $(document).on('shown.bs.modal', '#myModal', function () {
-    PopulatePenugasan();
+    PopulateStatus();
 });
 
 function loadContent() {
@@ -42,7 +42,7 @@ function loadTable() {
     });
 }
 
-function PopulatePenugasan() {
+function PopulateStatus() {
     $('.sPenugasan').select2({
         placeholder: 'Pilih Penugasan...',
         dropdownParent: $('#myModal'),
