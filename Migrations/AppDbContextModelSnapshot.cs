@@ -320,6 +320,12 @@ namespace Timbangan.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<Guid?>("ExternalID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool?>("IsPasar")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("NoPintu")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -444,11 +450,37 @@ namespace Timbangan.Migrations
 
             modelBuilder.Entity("Timbangan.Domain.Entities.Transaction", b =>
                 {
-                    b.Property<Guid>("TransactionID")
+                    b.Property<long>("TransactionID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AreaKerjaName")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int?>("BeratKeluar")
+                        .HasColumnType("int");
 
                     b.Property<int>("BeratMasuk")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(75)
+                        .HasColumnType("varchar(75)");
+
+                    b.Property<DateTime>("InDateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool?>("IsPasar")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<TimeOnly?>("JamKeluar")
+                        .HasColumnType("time(6)");
+
+                    b.Property<TimeOnly>("JamMasuk")
+                        .HasColumnType("time(6)");
+
+                    b.Property<int>("KendaraanID")
                         .HasColumnType("int");
 
                     b.Property<string>("NoPintu")
@@ -459,7 +491,40 @@ namespace Timbangan.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<DateTime?>("OutDateTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PenugasanName")
+                        .HasMaxLength(75)
+                        .HasColumnType("varchar(75)");
+
+                    b.Property<string>("RFID")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<int?>("StatusID")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly?>("TglKeluar")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("TglMasuk")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("TransactionGUID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("longtext");
+
                     b.HasKey("TransactionID");
+
+                    b.HasIndex("KendaraanID");
+
+                    b.HasIndex("StatusID");
 
                     b.ToTable("Transactions");
                 });
@@ -574,6 +639,23 @@ namespace Timbangan.Migrations
                     b.Navigation("TipeKendaraan");
                 });
 
+            modelBuilder.Entity("Timbangan.Domain.Entities.Transaction", b =>
+                {
+                    b.HasOne("Timbangan.Domain.Entities.Kendaraan", "Kendaraan")
+                        .WithMany("Transactions")
+                        .HasForeignKey("KendaraanID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Timbangan.Domain.Entities.Status", "Status")
+                        .WithMany("Transactions")
+                        .HasForeignKey("StatusID");
+
+                    b.Navigation("Kendaraan");
+
+                    b.Navigation("Status");
+                });
+
             modelBuilder.Entity("Timbangan.Domain.Entities.AreaKerja", b =>
                 {
                     b.Navigation("Kendaraans");
@@ -582,6 +664,11 @@ namespace Timbangan.Migrations
             modelBuilder.Entity("Timbangan.Domain.Entities.Client", b =>
                 {
                     b.Navigation("Kendaraans");
+                });
+
+            modelBuilder.Entity("Timbangan.Domain.Entities.Kendaraan", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Timbangan.Domain.Entities.Penugasan", b =>
@@ -599,6 +686,8 @@ namespace Timbangan.Migrations
                     b.Navigation("Clients");
 
                     b.Navigation("Kendaraans");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Timbangan.Domain.Entities.TipeKendaraan", b =>

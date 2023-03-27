@@ -8,38 +8,44 @@ connection.start();
 
 var pos = "1";
 var current = "Timbangan1";
+var curValue = 3650;
 
 connection.on("Timbangan1", function (value) {    
     const div = document.getElementById('berat');    
 
-    if (pos == "1") {
-        div.textContent = value;
+    if (pos == "1") {        
+        curValue = value;
+        div.textContent = curValue;
     }
 });
 
 connection.on("Timbangan2", function (value) {    
     const div = document.getElementById('berat');    
 
-    if (pos == "2") {
-        div.textContent = value;
+    if (pos == "2") {        
+        curValue = value;
+        div.textContent = curValue;
     }
 });
 
 connection.on("Timbangan3", function (value) {    
     const div = document.getElementById('berat');       
 
-    if (pos == "3") {
-        div.textContent = value;
+    if (pos == "3") {        
+        curValue = value;
+        div.textContent = curValue;
     }
 });
 
-$connection.hub.disconnected(function () {
-    setTimeout(function () {
-        $.connection.hub.start();
-    }, 5000); // Restart connection after 5 seconds.
-});
+//connection.hub.disconnected(function () {
+//    setTimeout(function () {
+//        connection.hub.start();
+//    }, 5000); // Restart connection after 5 seconds.
+//});
 
 function ChangePos() {
+    curValue = '0';
     var x = document.getElementById("pos").value;
     pos = x;
+    current = 'Timbangan' + pos;
 }

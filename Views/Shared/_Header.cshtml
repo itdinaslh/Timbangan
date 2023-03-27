@@ -348,7 +348,7 @@
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
                                     @{
-#nullable disable
+                                        #nullable disable
                                         if (User.Identity.IsAuthenticated)
                                         {
                                             @User.FindFirst("UserFullName")!.Value

@@ -39,6 +39,7 @@ public class Kendaraan
     [Required(ErrorMessage = "Jumlah Roda Wajib Diisi")]
     public int RodaID { get; set; }
 
+
 #nullable enable
 
     public int? StatusID { get; set; }
@@ -48,6 +49,10 @@ public class Kendaraan
     public int? AvgKeluar { get; set; } = 0;
 
     public int? BeratKIR { get; set; } = 0;
+
+    public bool? IsPasar { get; set; } = false;
+
+    public Guid? ExternalID { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
@@ -71,5 +76,5 @@ public class Kendaraan
 
     public TipeKendaraan TipeKendaraan { get; set; }
 
-
+    public List<Transaction> Transactions { get; set; }
 }

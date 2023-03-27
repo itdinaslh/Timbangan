@@ -18,4 +18,6 @@ public class Status
     public List<Client> Clients { get; set; }
 
     public List<Kendaraan> Kendaraans { get; set; }
+
+    public List<Transaction> Transactions { get; set; }
 }

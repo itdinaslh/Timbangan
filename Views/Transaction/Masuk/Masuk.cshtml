@@ -1,0 +1,229 @@
+﻿@{
+    Layout = "_LayoutOP";
+}
+
+@section plugincss {
+    <!--datatable css-->
+    <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+}
+
+<div class="row">
+    <div class="col">
+        <div class="h-100">
+            <div class="row mb-3 pb-1">
+                <div class="col-12">
+                    <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                        <div class="flex-grow-1">
+                            <h4 class="fs-16 mb-1">Penimbangan Masuk Bantargebang</h4>
+                            <p class="text-muted mb-0">Untuk melakukan penginputan penimbangan truk, tempelkan RFID ke alat pembaca RFID</p>
+                        </div>
+                    </div><!-- end card header -->
+                </div>
+                <!--end col-->
+            </div>
+            <div class="row mt-4 mt-lg-0">
+                <div class="col-12 col-md-6">
+                    <!-- card -->
+                    <div class="card" style="min-height:250px;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="fs-5 text-uppercase fw-medium text-muted text-truncate mb-0">
+                                        Berat Timbangan
+                                    </p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <button type="button"
+                                            class="btn btn-sm btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#inputTimbanganManual">
+                                        <i class="ri-edit-box-line align-bottom"></i>
+                                        Input Manual
+                                    </button>
+                                    <a href="pages-profile-settings.html"
+                                       class="btn btn-sm btn-success">
+                                        <i class="ri-printer-line align-bottom"></i>
+                                        Print Ulang
+                                    </a>
+                                    <!-- Button trigger modal -->
+                                    <!-- Modal -->
+                                    <div class="modal fade"
+                                         id="inputTimbanganManual"
+                                         tabindex="-1"
+                                         aria-labelledby="inputTimbanganManual"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5"
+                                                        id="exampleModalLabel">
+                                                        Input Timbangan Manual
+                                                    </h1>
+                                                    <button type="button"
+                                                            class="btn-close"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body pb-5">
+                                                    <form class="w-100">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input id="autoCompleteRFID"
+                                                                       type="text"
+                                                                       dir="ltr"
+                                                                       spellcheck="false"
+                                                                       autocomplete="off"
+                                                                       autocapitalize="off" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <input type="text"
+                                                                       class="form-control"
+                                                                       placeholder="Berat"
+                                                                       aria-label="Berat" />
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                            class="btn btn-danger"
+                                                            data-bs-dismiss="modal">
+                                                        <i class="ri-close-circle-line align-bottom"></i> Batalkan
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="ri-edit-box-line align-bottom"></i>
+                                                        Tambahkan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end justify-content-between mt-4">
+                                <div>
+                                    <h4 class="fw-semibold ff-secondary mb-4"
+                                        style="font-size: 3.5rem">
+                                        <span id="berat" class="berat-timbangan">0</span> KG
+                                    </h4>
+                                    <select id="pos" class="form-control text-muted">                                        
+                                        <option value="1">
+                                            Timbangan 1
+                                        </option>
+                                        <option value="2">
+                                            Timbangan 2
+                                        </option>
+                                        <option value="3">
+                                            Timbangan 3
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-soft-success rounded fs-3">
+                                        <i class="ri-scales-2-line text-success"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+                <div class="col-12 col-md-6">
+                    <!-- card -->
+                    <div class="card pb-2" style="min-height:250px;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="fs-5 text-uppercase fw-medium text-muted text-truncate mb-0">
+                                        Truk Terakhir
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end justify-content-between mt-4">
+                                <div>
+                                    <h4 class="fw-semibold ff-secondary mb-4"
+                                        style="font-size: 3.5rem">
+                                        <span id="WeightBefore" class="berat-timbangan">9127</span> KG
+                                    </h4>
+                                    <p class="fs-4 mb-0 text-muted d-flex align-items-center gap-2">
+                                        <span id="DoorBefore" class="badge bg-light text-success mb-0" style="font-size:35px;">
+                                            LUINDO III
+                                        </span>
+                                        <span id="TruckIDBefore" style="font-size:30px;">B 9335 POR</span>                                        
+                                    </p>
+                                </div>
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-soft-success rounded fs-3">
+                                        <i class="ri-truck-line text-success"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+            </div>
+            <div class="row mt-4 mt-lg-0">
+                <div class="col-12 col-md-6">
+                    <!-- card -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="fs-5 text-uppercase fw-medium text-muted text-truncate mb-3">
+                                        Daftar Transaksi
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <table id="tableTransaksi" class="table table-responsive table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Tgl. Masuk</th>                                            
+                                            <th>Lambung</th>
+                                            <th>Truk ID</th>
+                                            <th>Berat Masuk</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="fs-5 text-uppercase fw-medium text-muted text-truncate mb-3">
+                                        Daftar Perusahaan Blokir
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="table-perusahaan-blokir"></div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+            </div>
+        </div>
+        <!-- end .h-100-->
+    </div>
+    <!-- end col -->
+</div>
+
+@section pluginjs {
+    <!--datatable js-->
+    <script src="~/lib/datatables/datatables.min.js"></script>
+}
+
+@section scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/pages/dashboard/Scale.js"></script>
+    <script src="~/pages//dashboard/Tapping.js"></script>
+}

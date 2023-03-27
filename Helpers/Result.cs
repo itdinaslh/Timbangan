@@ -24,4 +24,18 @@ public static class Result
 
         return result;
     }
+
+    [Produces("application/json")]
+    public static Dictionary<string, string> SuccessMasuk(string weight, string door, string truckid)
+    {
+        var result = new Dictionary<string, string>
+        {
+            { "success", "yes" },
+            { "WeightBefore", weight },
+            { "DoorBefore", door },
+            { "TruckBefore", truckid }
+        };
+
+        return result;
+    }
 }

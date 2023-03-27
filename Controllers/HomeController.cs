@@ -19,8 +19,12 @@ public class HomeController : Controller
     {
         if (User.IsInRole("OpMasuk"))
         {
-            return View("~/Views/Transaction/Masuk/Index.cshtml");
+            return View("~/Views/Transaction/Masuk/Masuk.cshtml");
+        } else if (User.IsInRole("OpKeluar"))
+        {
+            return View("~/Views/Transaction/Keluar/Index.cshtml");
         }
+
         return View();
     }
 

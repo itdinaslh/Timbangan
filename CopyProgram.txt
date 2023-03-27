@@ -34,6 +34,14 @@ services.AddDbContext<AppDbContext>(options => {
     options.UseMySql(conn, ServerVersion.AutoDetect(conn));
 });
 
+services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+});
+
+services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+});
+
 {
     services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
     services.AddScoped<ITipeKendaraan, TipeKendaraanService>();

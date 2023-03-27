@@ -23,10 +23,11 @@ public class TransactionController : Controller
     [Authorize(Roles = "OpMasuk")]
     public IActionResult Index()
     {
-        return View("~/Views/Transaksi/Masuk/Index.html");
+        return View("~/Views/Transaksi/Masuk/Masuk.html");
     }
 
     [HttpPost("/transaction/masuk/store")]
+    [Authorize(Roles = "SysAdmin, OpMasuk")]
     public async Task<IActionResult> StoreMasuk(string noRFID, string berat)
     {
         string rf = noRFID;
@@ -41,10 +42,45 @@ public class TransactionController : Controller
                 trans.NoPolisi = truk.NoPolisi;
                 trans.NoPintu = truk.NoPintu;
                 trans.BeratMasuk = Convert.ToInt32(berat);
+                trans.TglMasuk = DateOnly.FromDateTime(DateTime.Now);
+                trans.JamMasuk = TimeOnly.FromDateTime(DateTime.Now);
+                trans.InDateTime = DateTime.Now;
+                trans.CreatedBy = User.Identity!.Name;
+                trans.KendaraanID = truk.KendaraanID;
+                trans.StatusID = 1;
+                trans.RFID = truk.RFID;
 
                 await repo.AddDataAsync(trans);
 
-                return Json(Result.Success());
+                return Json(Result.SuccessMasuk(berat, truk.NoPintu, truk.NoPolisi));
+            }
+        }
+
+        return Json(Result.Failed());
+    }
+
+    [HttpPost("/transaction/keluar/store")]
+    [Authorize(Roles = "SysAdmin, OpKeluar")]
+    public async Task<IActionResult> StoreKeluar(string noRFID, string berat)
+    {
+        string rf = noRFID;
+
+        Kendaraan? truk = await kRepo.Kendaraans.FirstOrDefaultAsync(x => x.RFID == rf);
+
+        if (truk is not null)
+        {
+            Transaction? trans = await repo.Transactions
+                .Where(x => x.KendaraanID == truk!.KendaraanID)
+                .Where(x => x.StatusID == 1)
+                .FirstOrDefaultAsync();
+
+            if (trans is not null)
+            {
+                trans.StatusID = 2;
+                trans.BeratKeluar = Convert.ToInt32(berat);
+                trans.TglKeluar = DateOnly.FromDateTime(DateTime.Now);
+                trans.JamKeluar = TimeOnly.FromDateTime(DateTime.Now);
+                trans.OutDateTime = DateTime.Now;
             }
         }
 
