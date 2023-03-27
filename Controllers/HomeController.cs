@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using Timbangan.Domain.Entities;
+using Timbangan.Domain.Repositories;
 using Timbangan.Models;
 
 namespace Timbangan.Controllers;
@@ -8,21 +11,50 @@ namespace Timbangan.Controllers;
 [Authorize]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ITransaction repo;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ITransaction trans)
     {
-        _logger = logger;
+        this.repo = trans;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         if (User.IsInRole("OpMasuk"))
         {
-            return View("~/Views/Transaction/Masuk/Masuk.cshtml");
+            Transaction? trx = await repo.Transactions
+                .Where(x => x.StatusID == 1)
+                .OrderByDescending(x => x.TransactionID)
+                .FirstOrDefaultAsync();
+
+            IndexMasukVM model = new();
+
+            if (trx != null)
+            {
+                model.TruckID = trx.NoPolisi;
+                model.NoLambung = trx.NoPintu;
+                model.BeratMasuk = trx.BeratMasuk;
+            }
+
+            return View("~/Views/Transaction/Masuk/Masuk.cshtml", model);
+
         } else if (User.IsInRole("OpKeluar"))
         {
-            return View("~/Views/Transaction/Keluar/Index.cshtml");
+            Transaction? trx = await repo.Transactions
+                .Where(x => x.StatusID == 2)
+                .OrderByDescending(x => x.TransactionID)
+                .FirstOrDefaultAsync();
+
+            IndexKeluarVM model = new();
+
+            if (trx != null)
+            {
+                model.TruckID = trx.NoPolisi;
+                model.NoLambung = trx.NoPintu;
+                model.BeratKeluar = trx.BeratKeluar;
+            }
+
+            return View("~/Views/Transaction/Keluar/Index.cshtml", model);
         }
 
         return View();
@@ -31,11 +63,5 @@ public class HomeController : Controller
     public IActionResult Privacy()
     {
         return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

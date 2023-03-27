@@ -28,7 +28,7 @@ public class TransactionApiController : ControllerBase
         int recordsTotal = 0;
 
         var init = repo.Transactions
-            .Where(s => s.StatusID == 6)            
+            .Where(s => s.StatusID == 1)            
             .Select(x => new {
                 transactionGUID = x.TransactionGUID,
                 tglMasuk = x.InDateTime,                
@@ -70,15 +70,15 @@ public class TransactionApiController : ControllerBase
         int recordsTotal = 0;
 
         var init = repo.Transactions
-            .Where(s => s.StatusID == 5)
+            .Where(s => s.StatusID == 2)
             .Where(t => t.TglMasuk == DateOnly.FromDateTime(DateTime.Now))
             .Select(x => new {
                 transactionGUID = x.TransactionGUID,
                 strukID = x.TransactionID,
-                tglMasuk = x.InDateTime,
+                tglKeluar = x.OutDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
                 noPolisi = x.NoPolisi,
                 noPintu = x.NoPintu,
-                beratMasuk = x.BeratMasuk
+                nett = x.BeratMasuk - x.BeratKeluar
             });
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))

@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     $('#berat').text(curValue);
-    loadMasuk();
+    loadKeluar();
 });
 
 $(document).bind('keypress', function (e) {
@@ -76,7 +76,7 @@ function SaveTimbanganKeluar() {
                 const db = document.getElementById('DoorBefore');
                 const ib = document.getElementById('TruckIDBefore');
 
-                loadMasuk();
+                loadKeluar();
 
                 bb.textContent = result.WeightBefore;
                 db.textContent = result.DoorBefore;
@@ -88,7 +88,7 @@ function SaveTimbanganKeluar() {
     });
 }
 
-function loadMasuk() {
+function loadKeluar() {
     $('#tableTransaksi').DataTable().destroy();
     $('#tableTransaksi').DataTable({
         serverSide: true,

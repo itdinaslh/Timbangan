@@ -8,7 +8,7 @@ connection.start();
 
 var pos = "1";
 var current = "Timbangan1";
-var curValue = 3650;
+var curValue = 3980;
 
 connection.on("Timbangan1", function (value) {    
     const div = document.getElementById('berat');    

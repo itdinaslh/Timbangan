@@ -33,7 +33,9 @@ public class TransactionController : Controller
         string rf = noRFID;
         if (rf is not null)
         {
-            Kendaraan? truk = await kRepo.Kendaraans.FirstOrDefaultAsync(x => x.RFID == rf);
+            Kendaraan? truk = await kRepo.Kendaraans
+                .Include(x => x.AreaKerja.Penugasan)
+                .FirstOrDefaultAsync(x => x.RFID == rf);
 
             if (truk is not null)
             {
@@ -49,6 +51,10 @@ public class TransactionController : Controller
                 trans.KendaraanID = truk.KendaraanID;
                 trans.StatusID = 1;
                 trans.RFID = truk.RFID;
+                trans.AreaKerjaName = truk.AreaKerja.NamaArea;
+                trans.PenugasanName = truk.AreaKerja.Penugasan.NamaPenugasan;
+                trans.UpdatedBy = User.Identity!.Name;
+                trans.UpdatedAt = DateTime.Now;
 
                 await repo.AddDataAsync(trans);
 
@@ -76,11 +82,12 @@ public class TransactionController : Controller
 
             if (trans is not null)
             {
-                trans.StatusID = 2;
                 trans.BeratKeluar = Convert.ToInt32(berat);
-                trans.TglKeluar = DateOnly.FromDateTime(DateTime.Now);
-                trans.JamKeluar = TimeOnly.FromDateTime(DateTime.Now);
-                trans.OutDateTime = DateTime.Now;
+                trans.UpdatedBy = User.Identity!.Name;            
+
+                await repo.UpdateAsync(trans);
+
+                return Json(Result.SuccessKeluar(berat, truk.NoPintu, truk.NoPolisi));
             }
         }
 
