@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Timbangan.Domain.Entities;
 
+[Table("transactions")]
 public class Transaction
 {    
     [Key]

@@ -1,0 +1,85 @@
+#left {
+  position: relative;
+}
+
+#logo {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 60px;
+}
+
+#copyright {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+}
+
+#sign-in {
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+#remember-me {
+  box-shadow: none !important;
+  border-width: 2px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+#remember-me:focus {
+  border-color: #212529;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+#password {
+  position: relative;
+}
+
+#togglePassword {
+  position: absolute;
+  top: 35%;
+  right: 8%;
+  cursor: pointer;
+  z-index: 5;
+}
+
+#remember-me:focus {
+  border: 2px solid var(--bs-border-color);
+}
+
+#remember-me:checked {
+  border: none;
+  background-color: #212529;
+}
+
+.bg-mesh {
+  background-color: hsla(0, 0%, 100%, 1);
+  background-image: radial-gradient(
+      at 91% 99%,
+      hsla(240, 0%, 28%, 0.1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 11% 17%, hsla(342, 0%, 86%, 0.25) 0px, transparent 50%);
+}
+
+/* Mobile Affected */
+@media only screen and (max-width: 600px) {
+  #logo {
+    position: relative;
+    top: 20px;
+    left: 0;
+    margin-bottom: 30px;
+  }
+
+  #togglePassword {
+    right: 8%;
+  }
+}

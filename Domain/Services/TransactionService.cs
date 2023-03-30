@@ -26,11 +26,7 @@ public class TransactionService : ITransaction
 
         if (trx is not null)
         {
-            trx.StatusID = 2;
-            trx.BeratKeluar = trans.BeratKeluar;
-            trx.TglKeluar = DateOnly.FromDateTime(DateTime.Now);
-            trx.JamKeluar = TimeOnly.FromDateTime(DateTime.Now);
-            trx.OutDateTime = DateTime.Now;
+            trx.StatusID = 2;            
             trx.UpdatedBy = trans.UpdatedBy;
             trx.UpdatedAt = DateTime.Now;
 

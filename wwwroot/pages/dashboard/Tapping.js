@@ -8,9 +8,9 @@ $(document).ready(function () {
 $(document).bind('keypress', function (e) {
     var nilai = e.which;
 
-    GetValue(nilai);
+    GetValue(nilai);    
 
-    if (e.which == 13) {
+    if (e.which == 13) {        
         if (rfid.length > 10) {
             rfid = rfid.substr(rfid.length - 10);
         }
@@ -92,19 +92,19 @@ function loadMasuk() {
     $('#tableTransaksi').DataTable().destroy();
     $('#tableTransaksi').DataTable({
         serverSide: true,
-        processing: true,
         responsive: true,
-        stateSave: true,
-        lengthMenu: [5, 10, 20],
+        stateSave: true,        
+        lengthMenu: [10, 20, 50],
         ajax: {
             url: '/api/transaksi/masuk',
             method: 'POST'
         },
         columns: [
-            { data: 'tglMasuk', name: 'tglMasuk', autowidth: true },
-            { data: 'noPintu', name: 'noPintu', autowidth: true },
-            { data: 'noPolisi', name: 'noPolisi', autowidth: true },            
-            { data: 'beratMasuk', name: 'beratMasuk', autowidth: true }            
+            { data: 'transactionID', name: 'transactionID', autowidth: true },
+            { data: 'tglMasuk', name: 'tglMasuk', autowidth: true, searchable: false, orderable: false },
+            { data: 'noPintu', name: 'noPintu', autowidth: true, searchable: false, orderable: false },
+            { data: 'noPolisi', name: 'noPolisi', autowidth: true, searchable: false, orderable: false },            
+            { data: 'beratMasuk', name: 'beratMasuk', autowidth: true, searchable: false, orderable: false }            
         ],
         order: [[0, "desc"]]
     });

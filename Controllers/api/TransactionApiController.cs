@@ -28,10 +28,10 @@ public class TransactionApiController : ControllerBase
         int recordsTotal = 0;
 
         var init = repo.Transactions
-            .Where(s => s.StatusID == 1)            
+            .Where(t => t.TglMasuk == DateOnly.FromDateTime(DateTime.Now))
             .Select(x => new {
-                transactionGUID = x.TransactionGUID,
-                tglMasuk = x.InDateTime,                
+                transactionID = x.TransactionID,
+                tglMasuk = x.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),                
                 noPolisi = x.NoPolisi,
                 noPintu = x.NoPintu,
                 beratMasuk = x.BeratMasuk
@@ -75,7 +75,7 @@ public class TransactionApiController : ControllerBase
             .Select(x => new {
                 transactionGUID = x.TransactionGUID,
                 strukID = x.TransactionID,
-                tglKeluar = x.OutDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
+                tglKeluar = x.OutDateTime!.Value.ToString("dd-MM-yyyy HH:mm:ss"),
                 noPolisi = x.NoPolisi,
                 noPintu = x.NoPintu,
                 nett = x.BeratMasuk - x.BeratKeluar

@@ -5,6 +5,8 @@ using Timbangan.Domain.Repositories;
 using Timbangan.Helpers;
 using Timbangan.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+using Timbangan.Hubs;
 
 namespace Timbangan.Controllers;
 
@@ -12,11 +14,13 @@ public class TransactionController : Controller
 {
     private readonly ITransaction repo;
     private readonly IKendaraan kRepo;
+    private readonly IHubContext<PrintHub> _context;
 
-    public TransactionController(ITransaction repo, IKendaraan kRepo)
+    public TransactionController(ITransaction repo, IKendaraan kRepo, IHubContext<PrintHub> hubContext)
     {
         this.repo = repo;
         this.kRepo = kRepo;
+        this._context = hubContext;
     }
 
     [HttpGet("/transaction/masuk")]
@@ -83,9 +87,45 @@ public class TransactionController : Controller
             if (trans is not null)
             {
                 trans.BeratKeluar = Convert.ToInt32(berat);
-                trans.UpdatedBy = User.Identity!.Name;            
+                trans.UpdatedBy = User.Identity!.Name;                
+                trans.TglKeluar = DateOnly.FromDateTime(DateTime.Now);
+                trans.JamKeluar = TimeOnly.FromDateTime(DateTime.Now);
+                trans.OutDateTime = DateTime.Now;
+
+                int? nett = trans.BeratMasuk - trans.BeratKeluar;
 
                 await repo.UpdateAsync(trans);
+
+                //Dictionary<string, string> query = new Dictionary<string, string>
+                //{
+                //    { "TransactionID", trans.TransactionID.ToString() },
+                //    { "NoPolisi", trans.NoPolisi },
+                //    { "NoPintu", trans.NoPintu },
+                //    { "PenugasanName", trans.PenugasanName! },
+                //    { "TglMasuk", trans .InDateTime.ToString("dd-MM-yyyy HH:mm:ss") },
+                //    { "TglKeluar", trans.OutDateTime.Value.ToString("dd-MM-yyyy HH:mm:ss") },
+                //    { "BeratMasuk", trans.BeratMasuk.ToString() },
+                //    { "BeratKeluar", trans.BeratKeluar.ToString() },
+                //    { "Nett", nett.ToString() },
+
+                //};
+
+#nullable disable
+                PrintStruk struk = new PrintStruk { 
+                    TransactionID = trans.TransactionID.ToString(),
+                    NoPolisi = trans.NoPolisi,
+                    NoPintu = trans.NoPintu,
+                    PenugasanName = trans.PenugasanName!,
+                    TglMasuk = trans.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
+                    TglKeluar = trans.OutDateTime.Value.ToString("dd-MM-yyyy HH:mm:ss"),
+                    BeratMasuk = trans.BeratMasuk.ToString(),
+                    BeratKeluar = trans.BeratKeluar.Value.ToString(),
+                    Nett = nett.Value.ToString()
+                };
+
+#nullable enable
+
+                await _context.Clients.All.SendAsync("PrintStruk", struk);
 
                 return Json(Result.SuccessKeluar(berat, truk.NoPintu, truk.NoPolisi));
             }
@@ -93,4 +133,25 @@ public class TransactionController : Controller
 
         return Json(Result.Failed());
     }
+}
+
+public class PrintStruk
+{
+    public string TransactionID { get; set; } = "Test";
+
+    public string NoPolisi { get; set; } = "Test";
+
+    public string NoPintu { get; set; } = "Test";
+
+    public string PenugasanName { get; set; } = "Test";
+
+    public string TglMasuk { get; set; } = "Test";
+
+    public string TglKeluar { get; set; } = "Test";
+
+    public string BeratMasuk { get; set; } = "Test";
+
+    public string BeratKeluar { get; set; } = "Test";
+
+    public string Nett { get; set; } = "Test";
 }

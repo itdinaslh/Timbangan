@@ -8,7 +8,7 @@ connection.start();
 
 var pos = "1";
 var current = "Timbangan1";
-var curValue = 3980;
+var curValue = 6800;
 
 connection.on("Timbangan1", function (value) {    
     const div = document.getElementById('berat');    
@@ -44,8 +44,13 @@ connection.on("Timbangan3", function (value) {
 //});
 
 function ChangePos() {
-    curValue = '0';
+    curValue = 0;
     var x = document.getElementById("pos").value;
+    $('#berat').text(curValue);
     pos = x;
     current = 'Timbangan' + pos;
 }
+
+$(document).on('change', '#pos', function () {
+    ChangePos();
+});

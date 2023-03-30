@@ -95,7 +95,7 @@ function loadKeluar() {
         processing: true,
         responsive: true,
         stateSave: true,
-        lengthMenu: [5, 10, 20],
+        lengthMenu: [10, 20, 50],
         ajax: {
             url: '/api/transaksi/keluar',
             method: 'POST'
