@@ -33,13 +33,13 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(modelBuilder);
 
         // Move Identity to "myschema" Schema:
-        modelBuilder.Entity<ApplicationUser>().ToTable("aspnetusers");
-        modelBuilder.Entity<IdentityRole>().ToTable("aspnetroles");
-        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("aspnetusertokens", "myschema");
-        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("aspnetuserroles", "myschema");
-        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("aspnetroleclaims", "myschema");
-        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("aspnetuserclaims", "myschema");
-        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("aspnetuserlogins", "myschema");
+        modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+        modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
 
     }
 }

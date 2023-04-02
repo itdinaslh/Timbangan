@@ -7,7 +7,7 @@ namespace Timbangan.Domain.Services;
 
 public class TransactionService : ITransaction
 {
-    private AppDbContext context;
+    private readonly AppDbContext context;
 
     public TransactionService(AppDbContext context) => this.context = context;
 

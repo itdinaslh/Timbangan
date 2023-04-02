@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Timbangan.Domain.Entities;
 
-[Table("clienttype")]
+[Table("ClientType")]
 public class ClientType
 {
     [Key]

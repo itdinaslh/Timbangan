@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Timbangan.Domain.Entities;
 
-[Table("roda")]
+[Table("Roda")]
 public class Roda
 {
     [Key]

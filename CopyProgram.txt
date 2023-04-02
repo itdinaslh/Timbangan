@@ -17,7 +17,7 @@ var services = builder.Services;
 // Add CoRS
 services.AddCors();
 
-string conn = builder.Configuration.GetConnectionString("AppDB");
+//string conn = builder.Configuration.GetConnectionString("AppDB");
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
@@ -25,13 +25,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = false;
-    options.Password.RequireDigit = false;    
+    options.Password.RequireDigit = false;
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+//services.AddDbContext<AppDbContext>(options => {
+//    options.UseMySql(conn, ServerVersion.AutoDetect(conn));
+//});
+
 services.AddDbContext<AppDbContext>(options => {
-    options.UseMySql(conn, ServerVersion.AutoDetect(conn));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreDB"));
 });
 
 services.AddControllers().AddJsonOptions(options => {
@@ -59,6 +63,8 @@ services.AddSignalR();
 services.AddSession();
 
 var app = builder.Build();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Timbangan.Domain.Entities;
 
-[Table("penugasan")]
+[Table("Penugasan")]
 public class Penugasan
 {
 #nullable disable

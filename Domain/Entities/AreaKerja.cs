@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Timbangan.Domain.Entities;
 
-[Table("areakerjas")]
+[Table("AreaKerja")]
 public class AreaKerja
 {
 
