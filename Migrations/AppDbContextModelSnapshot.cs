@@ -491,6 +491,10 @@ namespace Timbangan.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("character varying(75)");
 
+                    b.Property<string>("EkspenditurName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
                     b.Property<DateTime>("InDateTime")
                         .HasColumnType("timestamp with time zone");
 

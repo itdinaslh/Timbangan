@@ -12,8 +12,8 @@ using Timbangan.Data;
 namespace Timbangan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230402182059_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230508052245_InitialCreatePostgres")]
+    partial class InitialCreatePostgres
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -492,6 +492,10 @@ namespace Timbangan.Migrations
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(75)
                         .HasColumnType("character varying(75)");
+
+                    b.Property<string>("EkspenditurName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.Property<DateTime>("InDateTime")
                         .HasColumnType("timestamp with time zone");

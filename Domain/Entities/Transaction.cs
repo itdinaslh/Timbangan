@@ -12,7 +12,8 @@ public class Transaction
 
     public Guid TransactionGUID { get; set; } = Guid.NewGuid();
 
-#nullable disable
+#nullable disable    
+
     public int KendaraanID { get; set; }
 
     [MaxLength(20)]
@@ -45,6 +46,9 @@ public class Transaction
 
     [MaxLength(50)]
     public string? AreaKerjaName { get; set; }
+
+    [MaxLength(150)]
+    public string? EkspenditurName { get; set; }
 
     public DateOnly? TglKeluar { get; set; }
 

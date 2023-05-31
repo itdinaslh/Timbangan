@@ -7,6 +7,8 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "AppDB": "Server=localhost;Port=3306;Database=timbangan;Uid=admin;Pwd=Admin123$;"
+    "AppDB": "Server=localhost;Port=3306;Database=timbangan;Uid=admin;Pwd=Admin123$;",
+    "PostgreDB": "User ID=admin; Password=Admin123$; Host=127.0.0.1; Port=5432; Database=Timbangan; Pooling=true;"
   }
 }
+

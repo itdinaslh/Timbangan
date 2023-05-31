@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Timbangan.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreatePostgres : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -345,6 +345,7 @@ namespace Timbangan.Migrations
                     BeratKeluar = table.Column<int>(type: "integer", nullable: true),
                     PenugasanName = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: true),
                     AreaKerjaName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    EkspenditurName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     TglKeluar = table.Column<DateOnly>(type: "date", nullable: true),
                     JamKeluar = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     OutDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
