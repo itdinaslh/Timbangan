@@ -12,14 +12,14 @@ using Timbangan.Data;
 namespace Timbangan.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20230611084808_InitialUser")]
+    [Migration("20230611164835_InitialUser")]
     partial class InitialUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

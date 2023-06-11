@@ -22,4 +22,9 @@ public class UserDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
 
     }
+
+	//protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	//{
+	//	optionsBuilder.UseNpgsql("User ID=admin; Password=Admin123$; Host=127.0.0.1; Port=5432; Database=AuthTimbangan; Pooling=true;");
+	//}
 }
