@@ -6,5 +6,7 @@ public interface IClient
 {
     IQueryable<Client> Clients { get; }
 
+    IQueryable<ClientType> ClientTypes { get; }
+
     Task SaveDataAsync(Client client);
 }

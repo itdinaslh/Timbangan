@@ -17,6 +17,8 @@ public class Client
 
     public int? StatusID { get; set; }
 
+    public int ClientTypeID { get; set; }
+
     public Status Status { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
@@ -28,4 +30,7 @@ public class Client
 #nullable enable
 
     public Guid? PkmID { get; set; }
+
+#nullable disable
+    public ClientType ClientType { get; set; }
 }

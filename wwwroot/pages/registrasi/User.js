@@ -29,7 +29,7 @@ function loadTable() {
                     return `<button class='btn btn-sm btn-success mr-2 showMe' style='width:30%;' data-href='/registrasi/users/edit/?id=`
                         + row.id + `'><i class='fa fa-edit'></i> Edit</button>
                         <a href='/registrasi/manage/roles?id=` + row.id + `' class='btn btn-sm btn-primary mr-2' style='width:30%;'>Roles</a>
-                        <button class='btn btn-sm btn-warning showMe' style='width:37%;' data-href='/registrasi/users/changepass/?id=`
+                        <button class='btn btn-sm btn-warning showMe' style='width:37%;' data-href='/user/password/change/?user=`
                         + row.id + `'>Change Password</button>`;
                 }
             }

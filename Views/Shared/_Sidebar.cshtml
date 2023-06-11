@@ -66,10 +66,10 @@
                     <div class='collapse menu-dropdown @(ViewBag.Parent == "Konsolidasi" ? "show" : "")' id="konsolidasi">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a asp-action="List" asp-controller="Pengujian" class='nav-link @(ViewBag.Title == "Data Pengujian" ? "active" : "")' data-key="t-data-pengujian"> Data Pengujian </a>
+                                <a asp-action="Index" asp-controller="Ritase" class='nav-link @(ViewBag.Title == "Cek Ritase" ? "active" : "")' data-key="t-cek-ritase"> Cek Ritase </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-action="ReviewTeknis" asp-controller="Pengujian" class='nav-link @(ViewBag.Title == "Review Teknis" ? "active" : "")' data-key="t-review-teknis"> Review Teknis </a>
+                                <a href="javascript:void(0);" class='nav-link @(ViewBag.Title == "Hapus Transaksi" ? "active" : "")' data-key="t-hapus-tansaksi"> Hapus Transaksi </a>
                             </li>
                         </ul>
                     </div>
@@ -116,9 +116,6 @@
                             </li>
                             <li class="nav-item">
                                 <a asp-action="Index" asp-controller="AreaKerja" class='nav-link @(ViewBag.Title == "Area Kerja" ? "active" : "")' data-key="t-area-kerja"> Area Kerja </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-action="Index" asp-controller="OutputHasil" class='nav-link @(ViewBag.Title == "Output Hasil" ? "active" : "")' data-key="t-output-hasil"> Output Hasil </a>
                             </li>
                         </ul>
                     </div>

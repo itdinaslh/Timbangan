@@ -32,15 +32,7 @@ public class KendaraanApiController : ControllerBase
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.Kendaraans.Select(x => new {
-            kendaraanID = x.KendaraanID,
-            noPolisi = x.NoPolisi,
-            noPintu = x.NoPintu,
-            clientName = x.Client.ClientName,
-            createdAt = x.CreatedAt,
-            beratKIR = x.BeratKIR,
-            statusName = x.Status.StatusName
-        });
+        var init = repo.Kendaraans;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {
@@ -49,12 +41,20 @@ public class KendaraanApiController : ControllerBase
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            init = init.Where(a => a.noPolisi.ToLower().Contains(searchValue.ToLower()) || a.noPintu.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.NoPolisi.ToLower().Contains(searchValue.ToLower()) || a.NoPintu.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
 
-        var result = await init.Skip(skip).Take(pageSize).ToListAsync();
+        var result = await init.Select(x => new {
+            kendaraanID = x.KendaraanID,
+            noPolisi = x.NoPolisi,
+            noPintu = x.NoPintu,
+            clientName = x.Client.ClientName,
+            createdAt = x.CreatedAt.ToString("dd-MM-yyyy HH:mm:ss"),
+            beratKIR = x.BeratKIR != null ? Convert.ToInt32(x.BeratKIR).ToString("#,###") : "",
+            statusName = x.Status.StatusName
+        }).Skip(skip).Take(pageSize).ToListAsync();
 
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 

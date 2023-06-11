@@ -13,4 +13,8 @@ public class ClientType
     [MaxLength(30)]
     public string TypeName { get; set; } = default!;
 
+#nullable disable
+
+    public List<Client> Clients { get; set; }
+
 }

@@ -19,6 +19,8 @@ public class AreaKerja
     [MaxLength(10)]
     public string PenugasanID { get; set; }
 
+    public bool? IsB2B { get; set; } = false;
+
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;

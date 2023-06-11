@@ -48,6 +48,9 @@ function loadTable() {
                 }
             }
         ],
+        columnDefs: [
+            { className: 'text-center', targets: [3,4, 5, 6] }            
+        ],
         order: [[3, "desc"]]
     });
 }

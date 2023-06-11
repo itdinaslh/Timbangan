@@ -99,4 +99,9 @@ public class TransactionApiController : ControllerBase
 
         return Ok(jsonData);
     }
+
+    //public async Task<IActionResult> GetCurrentDumping()
+    //{
+
+    //}
 }

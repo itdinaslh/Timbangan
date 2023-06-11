@@ -165,4 +165,34 @@ public class UserController : Controller
                 $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
         }
     }
+
+    [HttpGet("/user/password/change")]
+    public IActionResult ChangePassword(string user) {
+        return PartialView(new ChangeModel {
+            UserID = user
+        });
+    }
+
+    [HttpPost("/user/password/change")]
+    public async Task<IActionResult> ChangePassword(ChangeModel model) {
+        if (ModelState.IsValid) {
+            var user = await _userManager.FindByIdAsync(model.UserID);
+
+            if (user is not null) {               
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+
+                if (result.Succeeded) {
+                    return Json(Result.Success());
+                } else {
+                    return Json(Result.Failed());
+                }                
+            }
+        }        
+
+        return PartialView(model);
+           
+    }
 }

@@ -42,13 +42,10 @@ public class Transaction
     public int? BeratKeluar { get; set; }
 
     [MaxLength(75)]
-    public string? PenugasanName { get; set; }
+    public string? Penugasan { get; set; }
 
     [MaxLength(50)]
-    public string? AreaKerjaName { get; set; }
-
-    [MaxLength(150)]
-    public string? EkspenditurName { get; set; }
+    public string? AreaKerja { get; set; }
 
     public DateOnly? TglKeluar { get; set; }
 

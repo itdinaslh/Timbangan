@@ -36,6 +36,7 @@ public class ClientApiController : ControllerBase
             clientID = x.ClientID,
             clientName = x.ClientName,
             pkmID = x.PkmID,
+            clientType = x.ClientType.TypeName,
             statusName = x.Status.StatusName
         });
 
@@ -67,6 +68,20 @@ public class ClientApiController : ControllerBase
             ).Select(s => new {
                 id = s.ClientID,
                 data = s.ClientName
+            }).ToListAsync();
+
+        return Ok(data);
+    }
+
+    [HttpGet("/api/master/clients/type/search")]
+    public async Task<IActionResult> SearchType(string? term)
+    {
+        var data = await repo.ClientTypes
+            .Where(k => !String.IsNullOrEmpty(term) ?
+                k.TypeName.ToLower().Contains(term.ToLower()) : true
+            ).Select(s => new {
+                id = s.ClientTypeID,
+                data = s.TypeName
             }).ToListAsync();
 
         return Ok(data);

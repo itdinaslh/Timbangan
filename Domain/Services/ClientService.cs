@@ -12,6 +12,8 @@ public class ClientService : IClient
 
     public IQueryable<Client> Clients => context.Clients;
 
+    public IQueryable<ClientType> ClientTypes => context.ClientTypes;
+
     public async Task SaveDataAsync(Client client)
     {
         if (client.ClientID == 0)
@@ -26,6 +28,7 @@ public class ClientService : IClient
                 data.ClientName = client.ClientName;
                 data.StatusID = client.StatusID;
                 data.PkmID = client.PkmID;
+                data.ClientTypeID = client.ClientTypeID;
                 data.UpdatedAt = DateTime.Now;
 
                 context.Clients.Update(data);

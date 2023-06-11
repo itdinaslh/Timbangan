@@ -7,7 +7,9 @@ $(document).on('select2:open', () => {
 });
 
 $(document).on('shown.bs.modal', '#myModal', function () {
-    PopulatePenugasan();
+    PopulateStatus();
+    PopulateTypes();
+    
 });
 
 function loadContent() {
@@ -29,6 +31,7 @@ function loadTable() {
         columns: [
             { data: 'clientID', name: 'clientID', autowidth: true },
             { data: 'clientName', name: 'clientName', autowidth: true },
+            { data: 'clientType', name: 'clientType', autowidth: true },
             { data: 'statusName', name: 'statusName', autowidth: true },
             { data: 'pkmID', name: 'pkmID', autowidth: true },
             {
@@ -39,17 +42,49 @@ function loadTable() {
                 }
             }
         ],
+        columnDefs: [
+            { className: 'text-center', targets: [2, 3, 5] }
+        ],
         order: [[0, "desc"]]
     });
 }
 
-function PopulatePenugasan() {
+function PopulateStatus() {
     $('.sStatus').select2({
         placeholder: 'Pilih Status...',
         dropdownParent: $('#myModal'),
         allowClear: true,
         ajax: {
             url: "/api/master/status/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
+}
+
+function PopulateTypes() {
+    $('.sClientType').select2({
+        placeholder: 'Pilih Jenis...',
+        dropdownParent: $('#myModal'),
+        allowClear: true,
+        ajax: {
+            url: "/api/master/clients/type/search",
             contentType: "application/json; charset=utf-8",
             data: function (params) {
                 var query = {

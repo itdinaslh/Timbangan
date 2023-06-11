@@ -14,20 +14,22 @@ public class TransactionController : Controller
 {
     private readonly ITransaction repo;
     private readonly IKendaraan kRepo;
+    private readonly ISpjPKM spjRepo;
     private readonly IHubContext<PrintHub> _context;
 
-    public TransactionController(ITransaction repo, IKendaraan kRepo, IHubContext<PrintHub> hubContext)
+    public TransactionController(ITransaction repo, IKendaraan kRepo, IHubContext<PrintHub> hubContext, ISpjPKM spjRepo)
     {
         this.repo = repo;
         this.kRepo = kRepo;
         this._context = hubContext;
+        this.spjRepo = spjRepo;
     }
 
     [HttpGet("/transaction/masuk")]
     [Authorize(Roles = "OpMasuk")]
     public IActionResult Index()
     {
-        return View("~/Views/Transaksi/Masuk/Masuk.html");
+        return View("~/Views/Transaction/Masuk/Masuk.cshtml");
     }
 
     [HttpPost("/transaction/masuk/store")]
@@ -55,8 +57,8 @@ public class TransactionController : Controller
                 trans.KendaraanID = truk.KendaraanID;
                 trans.StatusID = 1;
                 trans.RFID = truk.RFID;
-                trans.AreaKerjaName = truk.AreaKerja.NamaArea;
-                trans.PenugasanName = truk.AreaKerja.Penugasan.NamaPenugasan;
+                trans.AreaKerja = truk.AreaKerja.NamaArea;
+                trans.Penugasan = truk.AreaKerja.Penugasan.NamaPenugasan;
                 trans.UpdatedBy = User.Identity!.Name;
                 trans.UpdatedAt = DateTime.Now;
 
@@ -115,7 +117,7 @@ public class TransactionController : Controller
                     TransactionID = trans.TransactionID.ToString(),
                     NoPolisi = trans.NoPolisi,
                     NoPintu = trans.NoPintu,
-                    PenugasanName = trans.PenugasanName!,
+                    PenugasanName = trans.Penugasan!,
                     TglMasuk = trans.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
                     TglKeluar = trans.OutDateTime.Value.ToString("dd-MM-yyyy HH:mm:ss"),
                     BeratMasuk = trans.BeratMasuk.ToString(),
@@ -132,6 +134,23 @@ public class TransactionController : Controller
         }
 
         return Json(Result.Failed());
+    }
+
+    [HttpPost("/transaction/keluar/spj/update")]
+    public async Task<IActionResult> UpdateSPJ(string NoSPJ, string NoStruk, int BeratNett) {
+        var data = await spjRepo.SpjAngkuts.Where(x => x.NoSPJ == NoSPJ).FirstOrDefaultAsync();
+
+        if (data is not null) {
+            data.NoStruk = NoStruk;
+            data.TonaseTimbangan = BeratNett;
+            data.IsFinished = true;
+
+            await spjRepo.UpdateSPJ(data);
+
+            return Ok();
+        }
+
+        return NotFound();
     }
 }
 

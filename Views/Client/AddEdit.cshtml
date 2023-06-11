@@ -9,11 +9,15 @@
         <input type="hidden" asp-for="Client.ClientID" />
         <div class="form-group mb-3">
             <label>Nama Ekspenditur</label>
-            <input asp-for="Client.ClientName" class="form-control" required autofocus autocomplete="off" />          
+            <input asp-for="Client.ClientName" class="form-control" placeholder="Isi Nama Ekspenditur" required autofocus autocomplete="off" />          
+        </div>
+        <div class="form-group mb-3">
+            <label>Jenis</label>
+            <select asp-for="Client.ClientTypeID" class="form-control sClientType" required></select>
         </div>
         <div class="form-group mb-3">
             <label>Status</label>
-            <select asp-for="Client.StatusID" class="form-control sStatus"></select>
+            <select asp-for="Client.StatusID" class="form-control sStatus" required></select>
         </div>
     </div>
     <div class="modal-footer">
