@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
-using Timbangan.Domain.Entities;
 using Timbangan.Helpers;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Common;
+using SharedLibrary.Entities.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Timbangan.Controllers;
 
+[Authorize(Roles = "SysAdmin")]
 public class StatusController : Controller
 {
     private readonly IStatus repo;

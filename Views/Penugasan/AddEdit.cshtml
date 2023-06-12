@@ -1,8 +1,9 @@
-﻿@model Penugasan
+﻿@model SharedLibrary.Entities.Common.Client
 
 <form asp-action="Store" asp-controller="Penugasan" method="post">
+    <input type="hidden" asp-for="ClientID" />
     <div class="modal-header">
-        @if (Model.PenugasanID != string.Empty)
+        @if (Model.ClientID != Guid.Empty)
         {
             <h5 class="model-title">Edit Master Penugasan</h5>
         }
@@ -12,16 +13,11 @@
         }
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body">        
-        <div class="form-group mb-3">
-            <label>Kode Penugasan</label>
-            <input type="text" asp-for="PenugasanID" class="form-control" autofocus autocomplete="off" />
-            <span asp-validation-for="PenugasanID" class="text-danger"></span>
-        </div>
+    <div class="modal-body">
         <div class="form-group mb-3">
             <label>Nama Penugasan</label>
-            <input type="text" asp-for="NamaPenugasan" class="form-control" autofocus autocomplete="off" />
-            <span asp-validation-for="NamaPenugasan" class="text-danger"></span>
+            <input type="text" asp-for="ClientName" class="form-control" autofocus autocomplete="off" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
         </div>
     </div>
     <div class="modal-footer">

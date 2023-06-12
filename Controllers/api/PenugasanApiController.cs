@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Common;
 
 namespace Timbangan.Controllers.api;
 
@@ -10,9 +10,9 @@ namespace Timbangan.Controllers.api;
 [ApiController]
 public class PenugasanApiController : ControllerBase
 {
-    private readonly IPenugasan repo;
+    private readonly IClient repo;
 
-    public PenugasanApiController(IPenugasan repo) => this.repo = repo;
+    public PenugasanApiController(IClient repo) => this.repo = repo;
 
 
     [HttpPost("/api/master/penugasan")]
@@ -28,7 +28,7 @@ public class PenugasanApiController : ControllerBase
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.Penugasans;
+        var init = repo.Clients;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {
@@ -37,7 +37,7 @@ public class PenugasanApiController : ControllerBase
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            init = init.Where(a => a.NamaPenugasan.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.ClientName.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
@@ -52,12 +52,12 @@ public class PenugasanApiController : ControllerBase
     [HttpGet("/api/master/penugasan/search")]
     public async Task<IActionResult> Search(string? term)
     {
-        var data = await repo.Penugasans
+        var data = await repo.Clients
             .Where(k => !String.IsNullOrEmpty(term) ?
-                k.NamaPenugasan.ToLower().Contains(term.ToLower()) : true
+                k.ClientName.ToLower().Contains(term.ToLower()) : true
             ).Select(s => new {
-                id = s.PenugasanID,
-                data = s.NamaPenugasan
+                id = s.ClientID,
+                data = s.ClientName
             }).ToListAsync();
 
         return Ok(data);

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Transportation;
 
 namespace Timbangan.Controllers.api;
 
@@ -12,9 +12,9 @@ namespace Timbangan.Controllers.api;
 [Authorize]
 public class TipeKendaraanApiController : ControllerBase
 {
-    private readonly ITipeKendaraan repo;
+    private readonly IKendaraan repo;
 
-    public TipeKendaraanApiController(ITipeKendaraan repo) => this.repo = repo;
+    public TipeKendaraanApiController(IKendaraan repo) => this.repo = repo;
 
     [HttpPost("/api/master/tipe-kendaraan")]
     public async Task<IActionResult> DataTable()
