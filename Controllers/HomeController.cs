@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using Timbangan.Domain.Entities;
-using Timbangan.Domain.Repositories;
+using SharedLibrary.Entities.Timbangan;
+using SharedLibrary.Repositories.Timbangan;
 using Timbangan.Models;
 
 namespace Timbangan.Controllers;
