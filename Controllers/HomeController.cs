@@ -39,7 +39,7 @@ public class HomeController : Controller
         } else if (User.IsInRole("OpKeluar"))
         {
             Transaction? trx = await repo.Transactions
-                .Where(x => x.StatusID == 2)
+                .Where(x => x.StatusID == 4)
                 .OrderByDescending(x => x.TransactionID)
                 .FirstOrDefaultAsync();
 

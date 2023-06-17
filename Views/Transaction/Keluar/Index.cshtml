@@ -168,7 +168,7 @@
                 </div>
             </div>
             <div class="row mt-4 mt-lg-0">
-                <div class="col-12 col-md-6">
+                <div class="col-12">
                     <!-- card -->
                     <div class="card">
                         <div class="card-body">
@@ -184,30 +184,18 @@
                                     <thead>
                                         <tr>
                                             <th>Struk</th>
+                                            <th>Berat Masuk</th>
+                                            <th>Berat Keluar</th>
+                                            <th>Tgl. Masuk</th>
                                             <th>Tgl. Keluar</th>
                                             <th>Lambung</th>
                                             <th>Truk ID</th>
                                             <th>Nett</th>
+                                            <th>Print</th>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
-                        </div>
-                        <!-- end card body -->
-                    </div>
-                    <!-- end card -->
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1 overflow-hidden">
-                                    <p class="fs-5 text-uppercase fw-medium text-muted text-truncate mb-3">
-                                        Daftar Perusahaan Blokir
-                                    </p>
-                                </div>
-                            </div>
-                            <div id="table-perusahaan-blokir"></div>
                         </div>
                         <!-- end card body -->
                     </div>
@@ -228,5 +216,5 @@
 @section scripts {
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
     <script src="~/pages/dashboard/Scale.js"></script>
-    <script src="~/pages//dashboard/TappingKeluar.js"></script>
+    <script src="~/pages/dashboard/TappingKeluar.js"></script>
 }

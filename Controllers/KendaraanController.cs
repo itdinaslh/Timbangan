@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
 using Timbangan.Models;
 using Timbangan.Helpers;
-using Timbangan.Domain.Entities;
+using SharedLibrary.Repositories.Transportation;
+using SharedLibrary.Entities.Transportation;
 
 namespace Timbangan.Controllers;
 
@@ -28,7 +28,7 @@ public class KendaraanController : Controller
         {
             Kendaraan = new Kendaraan
             {
-                CreatedBy = User.Identity!.Name
+                //CreatedBy = User.Identity!.Name
             }
         });
     }
@@ -39,9 +39,9 @@ public class KendaraanController : Controller
     { 
         if (ModelState.IsValid)
         {
-            model.Kendaraan.UpdatedBy = User.Identity!.Name;
+            //model.Kendaraan.UpdatedBy = User.Identity!.Name;
             model.Kendaraan.UpdatedAt = DateTime.Now;
-            await repo.SaveDataAsync(model.Kendaraan);
+            //await repo.SaveDataAsync(model.Kendaraan);
 
             return Json(Result.Success());
         }

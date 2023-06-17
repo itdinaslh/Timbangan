@@ -1,4 +1,6 @@
-﻿using Timbangan.Domain.Entities;
+﻿
+
+using SharedLibrary.Entities.Transportation;
 
 namespace Timbangan.Models;
 

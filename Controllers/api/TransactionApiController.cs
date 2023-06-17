@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Timbangan;
 using System.Linq.Dynamic.Core;
 
 namespace Timbangan.Controllers.api;
@@ -28,14 +28,7 @@ public class TransactionApiController : ControllerBase
         int recordsTotal = 0;
 
         var init = repo.Transactions
-            .Where(t => t.TglMasuk == DateOnly.FromDateTime(DateTime.Now))
-            .Select(x => new {
-                transactionID = x.TransactionID,
-                tglMasuk = x.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),                
-                noPolisi = x.NoPolisi,
-                noPintu = x.NoPintu,
-                beratMasuk = x.BeratMasuk
-        });
+            .Where(x => x.StatusID == 3);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {
@@ -44,12 +37,20 @@ public class TransactionApiController : ControllerBase
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            init = init.Where(a => a.noPolisi.ToLower().Contains(searchValue.ToLower()) || a.noPintu.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.NoPolisi.ToLower().Contains(searchValue.ToLower()) || a.NoPintu.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
 
-        var result = await init.Skip(skip).Take(pageSize).ToListAsync();
+        var result = await init
+            .Select(x => new {
+                transactionID = x.TransactionID,
+                tglMasuk = x.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
+                noPolisi = x.NoPolisi,
+                noPintu = x.NoPintu,
+                beratMasuk = x.BeratMasuk
+            })
+            .Skip(skip).Take(pageSize).ToListAsync();
 
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 
@@ -59,6 +60,8 @@ public class TransactionApiController : ControllerBase
     [HttpPost("/api/transaksi/keluar")]
     public async Task<IActionResult> TableKeluar()
     {
+        string today = DateTime.Now.ToString("dd/MM/yyyy");
+
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -69,17 +72,7 @@ public class TransactionApiController : ControllerBase
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.Transactions
-            .Where(s => s.StatusID == 2)
-            .Where(t => t.TglMasuk == DateOnly.FromDateTime(DateTime.Now))
-            .Select(x => new {
-                transactionGUID = x.TransactionGUID,
-                strukID = x.TransactionID,
-                tglKeluar = x.OutDateTime!.Value.ToString("dd-MM-yyyy HH:mm:ss"),
-                noPolisi = x.NoPolisi,
-                noPintu = x.NoPintu,
-                nett = x.BeratMasuk - x.BeratKeluar
-            });
+        var init = repo.Transactions;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {
@@ -88,12 +81,27 @@ public class TransactionApiController : ControllerBase
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            init = init.Where(a => a.noPolisi.ToLower().Contains(searchValue.ToLower()) || a.noPintu.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.NoPolisi.ToLower().Contains(searchValue.ToLower()) || a.NoPintu.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
 
-        var result = await init.Skip(skip).Take(pageSize).ToListAsync();
+        var result = await init
+            .Where(s => s.StatusID == 4)
+            .Where(t => t.TglKeluar == DateOnly.ParseExact(today, "dd/MM/yyyy"))
+            .OrderByDescending(j => j.UpdatedAt)
+            .Select(x => new {
+                transactionGUID = x.TransactionGUID,
+                transactionID = x.TransactionID,
+                beratMasuk = x.BeratMasuk,
+                beratKeluar = x.BeratKeluar,
+                tglMasuk = x.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
+                tglKeluar = x.OutDateTime!.Value.ToString("dd-MM-yyyy HH:mm:ss"),
+                noPolisi = x.NoPolisi,
+                noPintu = x.NoPintu,
+                nett = x.BeratMasuk - x.BeratKeluar
+            })
+            .Skip(skip).Take(pageSize).ToListAsync();
 
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result };
 

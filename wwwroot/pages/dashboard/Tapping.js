@@ -16,7 +16,7 @@ $(document).bind('keypress', function (e) {
         }
 
         if (rfid.length == 10) {            
-            SaveTimbanganKeluar();
+            SaveTimbanganMasuk();
             // alert(rfid);
         } else {
             alert('RFID tidak sesuai');
@@ -62,7 +62,7 @@ function GetValue(value) {
     }
 }
 
-function SaveTimbanganKeluar() {
+function SaveTimbanganMasuk() {
     $.ajax({
         url: '/transaction/masuk/store',
         type: 'POST',
@@ -81,8 +81,14 @@ function SaveTimbanganKeluar() {
                 bb.textContent = result.WeightBefore;
                 db.textContent = result.DoorBefore;
                 ib.textContent = result.TruckBefore;
+            } else if (result.doubleTap) {
+
+            } else if (result.blocked) {
+                blockedMessage();
+            } else if (result.retribusi) {
+                retriMessage();
             } else {
-                alert('RFID Tidak Terdaftar');
+                rfidMessage();
             }
         }
     });
@@ -108,4 +114,30 @@ function loadMasuk() {
         ],
         order: [[0, "desc"]]
     });
+}
+
+function blockedMessage() {
+    Swal.fire(
+    {
+        type: 'warning',
+        title: 'Truk diblokir!',
+        showConfirmButton: true
+    });
+}
+
+function retriMessage() {
+    Swal.fire(
+    {
+        type: 'warning',
+        title: 'Belum bayar retribusi!',
+        showConfirmButton: true
+    });
+}
+function rfidMessage() {
+    Swal.fire(
+        {
+            type: 'warning',
+            title: 'RFID tidak terdaftar!',
+            showConfirmButton: true
+        });
 }

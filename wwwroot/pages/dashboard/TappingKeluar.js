@@ -16,7 +16,7 @@ $(document).bind('keypress', function (e) {
         }
 
         if (rfid.length == 10) {
-            SaveTimbanganKeluar();
+            SaveTimbanganMasuk();
             // alert(rfid);
         } else {
             alert('RFID tidak sesuai');
@@ -62,7 +62,7 @@ function GetValue(value) {
     }
 }
 
-function SaveTimbanganKeluar() {
+function SaveTimbanganMasuk() {
     $.ajax({
         url: '/transaction/keluar/store',
         type: 'POST',
@@ -101,12 +101,33 @@ function loadKeluar() {
             method: 'POST'
         },
         columns: [
-            { data: 'strukID', name: 'strukID', autowidth: true },
-            { data: 'tglKeluar', name: 'tglKeluar', autowidth: true, searchable: false, orderable: false },
+            { data: 'transactionID', name: 'transactionID', autowidth: true },
+            { data: 'beratMasuk', name: 'beratMasuk', autowidth: true },
+            { data: 'beratKeluar', name: 'beratKeluar', autowidth: true },
+            { data: 'tglMasuk', name: 'tglMasuk', autowidth: true },
+            { data: 'tglKeluar', name: 'tglKeluar', autowidth: true },
             { data: 'noPintu', name: 'noPintu', autowidth: true },
             { data: 'noPolisi', name: 'noPolisi', autowidth: true },
-            { data: 'nett', name: 'nett', autowidth: true, searchable: false, orderable: false }
+            { data: 'nett', name: 'nett', autowidth: true, searchable: false, orderable: false },
+            {
+                data: 'transactionID',
+                render: function (data, type, row) {
+                    return `<button class='btn btn-sm btn-success mr-2 btnPrint' style='width:100%;' data-href='/transaction/print-ulang/?id=`
+                        + row.transactionID + `'><i class='fa fa-edit'></i> Print</button>`;
+                }
+            }
         ],
-        order: [[0, "desc"]]
+        order: [[1, "desc"]]
     });
 }
+
+$(document).on('click', '.btnPrint', function () {
+    var thisUrl = $(this).attr('data-href');    
+    thisUrl += '&pos=' + pos;
+
+    $.ajax({
+        url: thisUrl,
+        method: 'GET'
+    });
+
+});

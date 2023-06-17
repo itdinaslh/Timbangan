@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Transportation;
 
 namespace Timbangan.Controllers.api;
 
@@ -51,7 +51,7 @@ public class KendaraanApiController : ControllerBase
             noPolisi = x.NoPolisi,
             noPintu = x.NoPintu,
             clientName = x.Client.ClientName,
-            createdAt = x.CreatedAt.ToString("dd-MM-yyyy HH:mm:ss"),
+            createdAt = x.CreatedAt.ToString("dd-MM-yyyy HH:ss"),
             beratKIR = x.BeratKIR != null ? Convert.ToInt32(x.BeratKIR).ToString("#,###") : "",
             statusName = x.Status.StatusName
         }).Skip(skip).Take(pageSize).ToListAsync();

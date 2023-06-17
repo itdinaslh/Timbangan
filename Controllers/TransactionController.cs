@@ -1,12 +1,14 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Timbangan.Domain.Repositories;
 using Timbangan.Helpers;
-using Timbangan.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using Timbangan.Hubs;
+using SharedLibrary.Repositories.Timbangan;
+using SharedLibrary.Repositories.Transportation;
+using SharedLibrary.Entities.Transportation;
+using SharedLibrary.Entities.Timbangan;
 
 namespace Timbangan.Controllers;
 
@@ -14,15 +16,14 @@ public class TransactionController : Controller
 {
     private readonly ITransaction repo;
     private readonly IKendaraan kRepo;
-    private readonly ISpjPKM spjRepo;
+    //private readonly ISpjPKM spjRepo;
     private readonly IHubContext<PrintHub> _context;
 
-    public TransactionController(ITransaction repo, IKendaraan kRepo, IHubContext<PrintHub> hubContext, ISpjPKM spjRepo)
+    public TransactionController(ITransaction repo, IKendaraan kRepo, IHubContext<PrintHub> hubContext)
     {
         this.repo = repo;
         this.kRepo = kRepo;
-        this._context = hubContext;
-        this.spjRepo = spjRepo;
+        this._context = hubContext;        
     }
 
     [HttpGet("/transaction/masuk")]
@@ -40,11 +41,29 @@ public class TransactionController : Controller
         if (rf is not null)
         {
             Kendaraan? truk = await kRepo.Kendaraans
-                .Include(x => x.AreaKerja.Penugasan)
+                .Include(x => x.Client)
                 .FirstOrDefaultAsync(x => x.RFID == rf);
+
+            Transaction? check = await repo.Transactions
+                .Where(k => k.KendaraanID == truk!.KendaraanID)
+                .Where(t => t.StatusID == 3)
+                .FirstOrDefaultAsync();
+
+            if (check != null)
+                return Json(Result.DoubleTap());
 
             if (truk is not null)
             {
+                if (!truk.IsVerified)
+                {
+                    return Json(Result.Unverified());
+                }
+
+                if (truk.StatusID == 5)
+                    return Json(Result.Blocked());
+                if (truk.StatusID == 6)
+                    return Json(Result.Retribusi());
+
                 Transaction trans = new();
 
                 trans.NoPolisi = truk.NoPolisi;
@@ -55,10 +74,10 @@ public class TransactionController : Controller
                 trans.InDateTime = DateTime.Now;
                 trans.CreatedBy = User.Identity!.Name;
                 trans.KendaraanID = truk.KendaraanID;
-                trans.StatusID = 1;
+                trans.StatusID = 3;
                 trans.RFID = truk.RFID;
-                trans.AreaKerja = truk.AreaKerja.NamaArea;
-                trans.Penugasan = truk.AreaKerja.Penugasan.NamaPenugasan;
+                trans.AreaKerja = truk.AreaKerja;
+                trans.Penugasan = truk.Client.ClientName;
                 trans.UpdatedBy = User.Identity!.Name;
                 trans.UpdatedAt = DateTime.Now;
 
@@ -83,7 +102,7 @@ public class TransactionController : Controller
         {
             Transaction? trans = await repo.Transactions
                 .Where(x => x.KendaraanID == truk!.KendaraanID)
-                .Where(x => x.StatusID == 1)
+                .Where(x => x.StatusID == 3)
                 .FirstOrDefaultAsync();
 
             if (trans is not null)
@@ -136,21 +155,32 @@ public class TransactionController : Controller
         return Json(Result.Failed());
     }
 
-    [HttpPost("/transaction/keluar/spj/update")]
-    public async Task<IActionResult> UpdateSPJ(string NoSPJ, string NoStruk, int BeratNett) {
-        var data = await spjRepo.SpjAngkuts.Where(x => x.NoSPJ == NoSPJ).FirstOrDefaultAsync();
+    [HttpGet("/transaction/print-ulang")]
+    public async Task<IActionResult> PrintUlang(long id, int pos)
+    {
+        string position = "PrintStruk" + pos;
+        Transaction? trans = await repo.Transactions.FirstOrDefaultAsync(x => x.TransactionID == id);
 
-        if (data is not null) {
-            data.NoStruk = NoStruk;
-            data.TonaseTimbangan = BeratNett;
-            data.IsFinished = true;
+        if (trans != null)
+        {
+            int? nett = trans.BeratMasuk - trans.BeratKeluar;
+            PrintStruk struk = new()
+            {
+                TransactionID = trans.TransactionID.ToString(),
+                NoPolisi = trans.NoPolisi,
+                NoPintu = trans.NoPintu,
+                PenugasanName = trans.Penugasan!,
+                TglMasuk = trans.InDateTime.ToString("dd-MM-yyyy HH:mm:ss"),
+                TglKeluar = trans.OutDateTime!.Value.ToString("dd-MM-yyyy HH:mm:ss"),
+                BeratMasuk = trans.BeratMasuk.ToString(),
+                BeratKeluar = trans.BeratKeluar!.Value.ToString(),
+                Nett = nett!.Value.ToString()
+            };
 
-            await spjRepo.UpdateSPJ(data);
-
-            return Ok();
+            await _context.Clients.All.SendAsync(position, struk);
         }
 
-        return NotFound();
+        return Json(Result.DoubleTap());
     }
 }
 

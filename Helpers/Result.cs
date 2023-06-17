@@ -52,4 +52,44 @@ public static class Result
 
         return result;
     }
+
+    [Produces("application/json")]
+    public static Dictionary<string, bool> Unverified()
+    {
+        var result = new Dictionary<string, bool>
+        {
+            { "unverified", true }
+        };
+        return result;
+    }
+
+    [Produces("application/json")]
+    public static Dictionary<string, bool> Blocked()
+    {
+        var result = new Dictionary<string, bool>
+        {
+            { "blocked", true }
+        };
+        return result;
+    }
+
+    [Produces("application/json")]
+    public static Dictionary<string, bool> Retribusi()
+    {
+        var result = new Dictionary<string, bool>
+        {
+            { "retribusi", true }
+        };
+        return result;
+    }
+
+    [Produces("application/json")]
+    public static Dictionary<string, bool> DoubleTap()
+    {
+        var result = new Dictionary<string, bool>
+        {
+            { "doubleTap", true }
+        };
+        return result;
+    }
 }
